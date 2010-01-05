@@ -1,22 +1,66 @@
 Characteristics
-
-Git's design is a synthesis of Torvalds's experience maintaining a large distributed development project, his intimate knowledge of file system performance, and an urgent need to produce a working system in short order. (See the history section for details.) These influences led to the following implementation choices:
+=========================================
+Git's design is a synthesis of Torvalds's experience maintaining a large distributed development project, 
+his intimate knowledge of file system performance, and an urgent need to produce a working system in short order. 
+(See the history section for details.) These influences led to the following implementation choices:
 
 Strong support for non-linear development
-    Git supports rapid branching and merging, and includes specific tools for visualizing and navigating a non-linear development history. A core assumption in Git is that a change will be merged more often than it is written, as it is passed around various reviewers.
+=========================================
+Git supports rapid branching and merging, and includes specific tools for visualizing and navigating 
+a non-linear development history. A core assumption in Git is that a change will be merged more often
+ than it is written, as it is passed around various reviewers.
+
 Distributed development
-    Like Darcs, BitKeeper, Mercurial, SVK, Bazaar and Monotone, Git gives each developer a local copy of the entire development history, and changes are copied from one such repository to another. These changes are imported as additional development branches, and can be merged in the same way as a locally developed branch.
+=========================================
+Like Darcs, BitKeeper, Mercurial, SVK, Bazaar and Monotone, Git gives each developer a local copy of 
+the entire development history, and changes are copied from one such repository to another. These changes 
+are imported as additional development branches, and can be merged in the same way as a locally developed branch.
+
 Compatibility with existing systems/protocols
-    Repositories can be published via HTTP, FTP, rsync, or a Git protocol over either a plain socket or ssh. Git also has a CVS server emulation, which enables the use of existing CVS clients and IDE plugins to access Git repositories. Subversion and svk repositories can be used directly with git-svn.
+=========================================
+Repositories can be published via HTTP, FTP, rsync, or a Git protocol over either a plain socket or ssh. 
+Git also has a CVS server emulation, which enables the use of existing CVS clients and IDE plugins to access 
+Git repositories. Subversion and svk repositories can be used directly with git-svn.
+
 Efficient handling of large projects
-    Torvalds has described Git as being very fast and scalable,[22] and performance tests done by Mozilla showed it was an order of magnitude faster than some revision control systems, and fetching revision history from locally stored repository can be two orders of magnitude faster than fetching it from the remote server.[23][24] In particular, Git does not get slower as the project history grows larger.[25]
+=========================================
+Torvalds has described Git as being very fast and scalable,[22] and performance tests done by Mozilla showed 
+it was an order of magnitude faster than some revision control systems, and fetching revision history from 
+locally stored repository can be two orders of magnitude faster than fetching it from the remote server.[23][24] 
+In particular, Git does not get slower as the project history grows larger.[25]
+
 Cryptographic authentication of history
-    The Git history is stored in such a way that the name of a particular revision (a "commit" in Git terms) depends upon the complete development history leading up to that commit. Once it is published, it is not possible to change the old versions without it being noticed. The structure is similar to a hash tree, but with additional data at the nodes as well as the leaves.[26] (Mercurial and Monotone also have this property.)
+=========================================
+The Git history is stored in such a way that the name of a particular revision (a "commit" in Git terms) depends 
+upon the complete development history leading up to that commit. Once it is published, it is not possible to change 
+the old versions without it being noticed. The structure is similar to a hash tree, but with additional data at 
+the nodes as well as the leaves.[26] (Mercurial and Monotone also have this property.)
+
 Toolkit-based design
-    Git was designed as a set of programs written in C, and a number of shell scripts that provide wrappers around those programs.[27] Although most of those scripts have been rewritten in C as part of an ongoing effort to port it to Microsoft Windows[citation needed], the design remains, and it is easy to chain the components together.[28]
+=========================================
+Git was designed as a set of programs written in C, and a number of shell scripts that provide wrappers 
+around those programs.[27] Although most of those scripts have been rewritten in C as part of an ongoing 
+effort to port it to Microsoft Windows[citation needed], the design remains, and it is easy to chain the 
+components together.[28]
+
 Pluggable merge strategies
-    As part of its toolkit design, Git has a well-defined model of an incomplete merge, and it has multiple algorithms for completing it, culminating in telling the user that it is unable to complete the merge automatically and manual editing is required.
+=========================================
+As part of its toolkit design, Git has a well-defined model of an incomplete merge, and it has multiple 
+algorithms for completing it, culminating in telling the user that it is unable to complete the merge 
+automatically and manual editing is required.
+
 Garbage accumulates unless collected
-    Aborting operations or backing out changes will leave useless dangling objects in the database. These are generally a small fraction of the continuously growing history of wanted objects, but reclaiming the space using git gc --prune can be slow.[29]
+=========================================
+Aborting operations or backing out changes will leave useless dangling objects in the database. These 
+are generally a small fraction of the continuously growing history of wanted objects, but reclaiming the 
+space using git gc --prune can be slow.[29]
+
 Periodic explicit object packing
-    Git stores each newly created object as a separate file. Although individually compressed, this takes a great deal of space and is inefficient. This is solved by the use of "packs" that store a large number of objects in a single file (or network byte stream), delta-compressed among themselves. Packs are compressed using the heuristic that files with the same name are probably similar, but do not depend on it for correctness. Newly created objects (newly added history) are still stored singly, and periodic repacking is required to maintain space efficiency. Git does periodic repacking automatically but manual repacking is also possible with the git gc command. 
+=========================================
+Git stores each newly created object as a separate file. Although individually compressed, this takes 
+a great deal of space and is inefficient. This is solved by the use of "packs" that store a large number 
+of objects in a single file (or network byte stream), delta-compressed among themselves. Packs are 
+compressed using the heuristic that files with the same name are probably similar, but do not depend 
+on it for correctness. Newly created objects (newly added history) are still stored singly, and periodic 
+repacking is required to maintain space efficiency. Git does periodic repacking automatically but manual 
+repacking is also possible with the git gc command. 

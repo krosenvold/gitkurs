@@ -1,0 +1,2 @@
+rm -rf kursRepo
+git clone --bare --no-hardlinks  kursRepoBackup kursRepo
